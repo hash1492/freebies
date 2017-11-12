@@ -60,9 +60,20 @@ var firebaseAuth = firebase.firebaseAuth
         .catch(function (err) {
           console.log(err)
           switch (err.code) {
+            case 'auth/invalid-email':
+              self.$notify({
+                group: 'foo',
+                type: 'error',
+                title: 'Invalid email',
+                text: 'The email address is badly formed'
+              });
+              self.user.email = ''
+              self.user.password = ''
+              break
             case 'auth/user-not-found':
               self.$notify({
                 group: 'foo',
+                type: 'error',
                 title: 'User not found',
                 text: 'The user with this email was not found'
               });
@@ -72,6 +83,7 @@ var firebaseAuth = firebase.firebaseAuth
             case 'auth/wrong-password':
               self.$notify({
                 group: 'foo',
+                type: 'error',
                 title: 'Incorrect Password',
                 text: 'The password entered for this user is incorrect'
               });

@@ -53,28 +53,12 @@ export default {
     viewItem: function (item_id) {
       console.log(item_id)
       this.$router.push({name: 'ItemDetail', params: {item_id: item_id}})
-    },
-    favoriteItem: function (item_id) {
-      console.log('favorite item: ' + item_id)
-    },
-    getItems: function () {
-      var self = this
-      itemsCollection.get()
-      .then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          self.items.push(doc.data())
-          console.log(doc.data())
-        })
-      })
     }
   }
 }
 </script>
 
 <style scoped>
-router-link {
-  color: #FFFFFF !important;
-}
 .item-list-img {
   height: 250px;
 }

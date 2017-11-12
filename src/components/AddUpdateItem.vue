@@ -46,7 +46,6 @@
         <div class="form-group">
            <label for="exampleInputFile">Item Image</label>
            <input class="image-upload-input" type="file" v-on:change='uploadImage($event.target.name, $event.target.files)' accept="image/*" id="exampleInputFile">
-           <!-- <p class="help-block">Item Image</p> -->
          </div>
       </div>
     </div>

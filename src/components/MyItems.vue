@@ -63,9 +63,6 @@ export default {
 </script>
 
 <style scoped>
-router-link {
-  color: #FFFFFF !important;
-}
 .item-list-img {
   height: 250px;
 }

@@ -13,8 +13,8 @@
               <h2 class="item-title">{{item.title}}</h2>
               <p class="item-date">Added: {{item.createdAt | formatDate}}</p>
               <h4>Category: {{item.category}}</h4>
-              <h4>{{item.description}}</h4>
-              <h4>{{item.address}}</h4>
+              <h4>Description: {{item.description}}</h4>
+              <h4>Address: {{item.address}}</h4>
             </div>
           </div>
         </div>

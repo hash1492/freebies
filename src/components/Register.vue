@@ -68,6 +68,19 @@
         })
         .catch(function (err) {
           console.log(err)
+
+          switch (err.code) {
+            case 'auth/email-already-in-use':
+              self.$notify({
+                group: 'foo',
+                type: 'error',
+                title: 'User already exists',
+                text: 'A user with this email already exists'
+              });
+              break;
+            default:
+
+          }
         })
       }
     }

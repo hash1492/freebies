@@ -8,10 +8,8 @@
               <div class = "caption">
                  <h3>{{item.title}}</h3>
                  <p>{{item.description}}</p>
-                 <p class="item-date">{{item.createdAt | formatDate}}</p>
                  <p>
                    <button type="button" v-on:click="viewItem(item.id)" class = "btn btn-primary" name="button">View</button>
-                   <!-- <button type="button" v-on:click="favoriteItem(item.id)" class = "btn btn-default" name="button">Favorite</button> -->
                  </p>
               </div>
            </div>
@@ -23,25 +21,21 @@
 
 <script>
 import * as firebase from '../firebase/config'
-import moment from 'moment'
 
 var itemsCollection = firebase.itemsCollection
+var firebaseAuth = firebase.firebaseAuth;
 
 export default {
-  name: 'ItemList',
+  name: 'MyItems',
   data () {
     return {
       items: []
     }
   },
-  filters: {
-    formatDate(value) {
-      return moment(String(value)).fromNow()
-    }
-  },
   created: function () {
     var self = this
-    itemsCollection.get()
+    itemsCollection.where('userId','==', firebaseAuth.currentUser.uid)
+    .get()
     .then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
         self.items.push(doc.data())
@@ -53,9 +47,6 @@ export default {
     viewItem: function (item_id) {
       console.log(item_id)
       this.$router.push({name: 'ItemDetail', params: {item_id: item_id}})
-    },
-    favoriteItem: function (item_id) {
-      console.log('favorite item: ' + item_id)
     },
     getItems: function () {
       var self = this
@@ -77,9 +68,5 @@ router-link {
 }
 .item-list-img {
   height: 250px;
-}
-.item-date {
-  color: #565656;
-  font-style: italic;
 }
 </style>

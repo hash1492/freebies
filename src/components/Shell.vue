@@ -7,6 +7,7 @@
 
 <script>
 import FreebiesNavbar from './Navbar.vue'
+import * as firebase from '../firebase/config'
 
 export default {
   components: {

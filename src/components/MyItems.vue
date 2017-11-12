@@ -8,8 +8,10 @@
               <div class = "caption">
                  <h3>{{item.title}}</h3>
                  <p>{{item.description}}</p>
+                 <p class="item-date">{{item.createdAt | formatDate}}</p>
                  <p>
-                   <button type="button" v-on:click="viewItem(item.id)" class = "btn btn-primary" name="button">View</button>
+                   <button type="button" v-on:click="viewItem(item.id)" class = "btn btn-info" name="button">View</button>
+                   <button type="button" v-on:click="editItem(item.id)" class = "btn btn-default" name="button">Edit</button>
                  </p>
               </div>
            </div>
@@ -21,6 +23,8 @@
 
 <script>
 import * as firebase from '../firebase/config'
+import moment from 'moment'
+import lodash from 'lodash'
 
 var itemsCollection = firebase.itemsCollection
 var firebaseAuth = firebase.firebaseAuth;
@@ -32,6 +36,11 @@ export default {
       items: []
     }
   },
+  filters: {
+    formatDate(value) {
+      return moment(String(value)).fromNow()
+    }
+  },
   created: function () {
     var self = this
     itemsCollection.where('userId','==', firebaseAuth.currentUser.uid)
@@ -41,12 +50,16 @@ export default {
         self.items.push(doc.data())
         console.log(doc.data())
       })
+      self.items = _.sortBy(self.items, 'createdAt').reverse();
     })
   },
   methods: {
     viewItem: function (item_id) {
       console.log(item_id)
       this.$router.push({name: 'ItemDetail', params: {item_id: item_id}})
+    },
+    editItem: function (item_id) {
+      this.$router.push({name: 'UpdateItem', params: {item_id: item_id}})
     },
     getItems: function () {
       var self = this

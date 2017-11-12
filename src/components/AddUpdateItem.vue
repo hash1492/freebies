@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <h1>Add Item</h1>
+    <h1 v-if="!editMode">Add Item</h1>
+    <h1 v-else>Update Item</h1>
     <br>
     <div class="row">
       <div class="col-md-6">
@@ -36,7 +37,8 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <button type="button" class="btn btn-default" v-on:click="addItem">Post</button>
+              <button type="button" class="btn btn-default" v-if="!editMode" v-on:click="addItem">Post</button>
+              <button type="button" class="btn btn-default" v-else v-on:click="updateItem">Update</button>
             </div>
           </div>
         </form>
@@ -69,8 +71,10 @@ export default {
       item: {
         category: ''
       },
+      itemFireBaseId: '',
       categories: [],
-      showItemImg: false
+      showItemImg: false,
+      editMode: false
     }
   },
   created: function () {
@@ -81,12 +85,31 @@ export default {
         self.categories.push(doc.data())
       })
     })
+    if(this.$route.params.item_id) {
+      this.editMode = true
+      console.log(this.$route.params.item_id)
+      itemsCollection.where("id", "==", this.$route.params.item_id)
+      .get()
+      .then(function(querySnapshot) {
+        console.log(querySnapshot);
+        querySnapshot.forEach(function(doc) {
+            console.log(doc.id, " => ", doc.data());
+            self.itemFireBaseId = doc.id
+            self.item = doc.data()
+            self.showItemImg = true
+        });
+        console.log(self.item);
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+    }
   },
   methods: {
     isValidForm: function () {
       if(!this.item.title || !this.item.description || !this.item.category || !this.item.address || !this.item.imgUrl) {
-        self.$notify({
+        this.$notify({
           group: 'foo',
+          type: 'error',
           title: 'Form Incomplete',
           text: 'Please make sure all fields are filled'
         });
@@ -127,7 +150,7 @@ export default {
     addItem: function () {
       console.log(this.item)
       var self = this
-      if(self.isValidForm()){
+      if(this.isValidForm()){
         this.item.id = uuidv4()
         this.item.userId = firebaseAuth.currentUser.uid;
         this.item.createdAt = new Date();
@@ -148,6 +171,22 @@ export default {
     },
     updateItem: function () {
       console.log(this.item)
+      var self = this
+      itemsCollection.doc(this.itemFireBaseId)
+      .update(this.item)
+      .then(function() {
+          console.log("Document successfully updated!");
+          self.$notify({
+            group: 'foo',
+            title: 'Item Updated',
+            text: self.item.title + ' has been updated successfully'
+          });
+          self.$router.push({name: 'MyItems'})
+      })
+      .catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+      });
     }
   }
 }

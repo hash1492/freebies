@@ -6,14 +6,15 @@
       </div>
       <div class = "row">
         <div class = "col-sm-6 col-md-4" v-for="item in filteredItems">
-           <div class = "thumbnail">
+           <div class = "thumbnail list-item" v-on:click="viewItem(item.id)">
               <img class="item-list-img" v-bind:src= "item.imgUrl" alt = "Generic placeholder thumbnail">
               <div class = "caption">
                  <h3>{{item.title}}</h3>
-                 <p>{{item.description}}</p>
+                 <!-- <p>{{item.description}}</p> -->
+                 <p>{{item.userId}}</p>
                  <p class="item-date">{{item.createdAt | formatDate}}</p>
                  <p>
-                   <button type="button" v-on:click="viewItem(item.id)" class = "btn btn-info" name="button">View</button>
+                   <!-- <button type="button" v-on:click="viewItem(item.id)" class = "btn btn-info" name="button">View</button> -->
                    <!-- <button type="button" v-on:click="favoriteItem(item.id)" class = "btn btn-default" name="button">Favorite</button> -->
                  </p>
               </div>
@@ -73,6 +74,9 @@ export default {
 </script>
 
 <style scoped>
+.list-item {
+  cursor: pointer;
+}
 .item-list-img {
   height: 250px;
 }

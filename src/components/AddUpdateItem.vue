@@ -37,8 +37,8 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <button type="button" class="btn btn-default" v-if="!editMode" v-on:click="addItem">Post</button>
-              <button type="button" class="btn btn-default" v-else v-on:click="updateItem">Update</button>
+              <button type="button" class="btn btn-info" v-if="!editMode" v-on:click="addItem">Post</button>
+              <button type="button" class="btn btn-info" v-else v-on:click="updateItem">Update</button>
             </div>
           </div>
         </form>

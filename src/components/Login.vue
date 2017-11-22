@@ -9,9 +9,9 @@
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <input type="password" v-model="user.password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <input type="password" v-model="user.password" v-on:keyup.enter="login" class="form-control" id="exampleInputPassword1" placeholder="Password">
         </div>
-        <button type="button" class="btn btn-primary" v-on:keyup.enter="login" v-on:click="login()">Login</button>
+        <button type="button" class="btn btn-primary" v-on:click="login()">Login</button>
         <br><br>
         <div>
           <router-link to="/register">New user? Register</router-link>

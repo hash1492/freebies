@@ -15,6 +15,7 @@
               <h4>Category: {{item.category}}</h4>
               <h4>Description: {{item.description}}</h4>
               <h4>Address: {{item.address}}</h4>
+              <h4>User ID: {{item.userId}}</h4>
             </div>
           </div>
         </div>

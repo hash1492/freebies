@@ -43,7 +43,7 @@ export default {
   },
   created: function () {
     var self = this
-    itemsCollection.where('userId','==', firebaseAuth.currentUser.uid)
+    itemsCollection.where('userId','==', firebaseAuth.currentUser.email)
     .get()
     .then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {

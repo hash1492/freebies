@@ -38,7 +38,10 @@
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
               <button type="button" class="btn btn-info" v-if="!editMode" v-on:click="addItem">Post</button>
-              <button type="button" class="btn btn-info" v-else v-on:click="updateItem">Update</button>
+              <div v-else>
+                <button type="button" class="btn btn-info" v-on:click="updateItem">Update</button>
+                <button type="button" class="btn btn-danger" v-on:click="deleteItem">Delete</button>
+              </div>
             </div>
           </div>
         </form>
@@ -152,7 +155,7 @@ export default {
       var self = this
       if(this.isValidForm()){
         this.item.id = uuidv4()
-        this.item.userId = firebaseAuth.currentUser.uid;
+        this.item.userId = firebaseAuth.currentUser.email;
         this.item.createdAt = new Date();
         itemsCollection.add(Object.assign({}, this.item))
         .then(function (docRef) {
@@ -187,6 +190,25 @@ export default {
           // The document probably doesn't exist.
           console.error("Error updating document: ", error);
       });
+    },
+    deleteItem: function () {
+      console.log(this.itemFireBaseId)
+      var response = confirm('Are you sure you want to delete?')
+      if(response) {
+        var self = this
+        itemsCollection.doc(this.itemFireBaseId)
+        .delete().then(function () {
+          console.log('Document successfully deleted!')
+          self.$notify({
+            group: 'foo',
+            title: 'Item Deleted',
+            text: self.item.title + ' has been deleted successfully'
+          });
+          self.$router.push({name: 'MyItems'})
+        }).catch(function (error) {
+          console.error('Error removing document: ', error)
+        })
+      }
     }
   }
 }

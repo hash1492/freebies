@@ -7,7 +7,7 @@
               <img class="item-list-img" v-bind:src= "item.imgUrl" alt = "Generic placeholder thumbnail">
               <div class = "caption">
                  <h3>{{item.title}}</h3>
-                 <p>{{item.description}}</p>
+                 <!-- <p>{{item.description}}</p> -->
                  <p class="item-date">{{item.createdAt | formatDate}}</p>
                  <p>
                    <button type="button" v-on:click="viewItem(item.id)" class = "btn btn-info" name="button">View</button>

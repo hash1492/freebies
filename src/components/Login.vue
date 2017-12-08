@@ -4,12 +4,12 @@
       <h1>Login</h1>
       <form class="form-signin">
         <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" v-model="user.email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+          <label>Email address</label>
+          <input type="email" v-model="user.email" class="form-control" placeholder="Email">
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" v-model="user.password" v-on:keyup.enter="login" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <label>Password</label>
+          <input type="password" v-model="user.password" v-on:keyup.enter="login" class="form-control" placeholder="Password">
         </div>
         <button type="button" class="btn btn-primary" v-on:click="login()">Login</button>
         <br><br>
@@ -37,7 +37,6 @@ var firebaseAuth = firebase.firebaseAuth
     methods: {
       login: function () {
         var self = this
-        console.log('login clicked!')
         if (!this.user.email || !this.user.password) {
           self.$notify({
             group: 'foo',
@@ -46,7 +45,6 @@ var firebaseAuth = firebase.firebaseAuth
           });
           return 0
         }
-        console.log(this.user.email)
         firebaseAuth.signInWithEmailAndPassword(this.user.email, this.user.password)
         .then(function (response) {
           console.log(response)

@@ -64,7 +64,6 @@ export default {
     },
     logout: function (event) {
       event.preventDefault()
-      console.log('logout clicked!')
       var self = this
       this.activeTab = 'Home'
       firebaseAuth.signOut().then(function(response) {

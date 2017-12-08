@@ -7,7 +7,6 @@
               <img class="item-list-img" v-bind:src= "item.imgUrl" alt = "Generic placeholder thumbnail">
               <div class = "caption">
                  <h3>{{item.title}}</h3>
-                 <!-- <p>{{item.description}}</p> -->
                  <p class="item-date">{{item.createdAt | formatDate}}</p>
                  <p>
                    <button type="button" v-on:click="viewItem(item.id)" class = "btn btn-info" name="button">View</button>
@@ -55,21 +54,10 @@ export default {
   },
   methods: {
     viewItem: function (item_id) {
-      console.log(item_id)
       this.$router.push({name: 'ItemDetail', params: {item_id: item_id}})
     },
     editItem: function (item_id) {
       this.$router.push({name: 'UpdateItem', params: {item_id: item_id}})
-    },
-    getItems: function () {
-      var self = this
-      itemsCollection.get()
-      .then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          self.items.push(doc.data())
-          console.log(doc.data())
-        })
-      })
     }
   }
 }

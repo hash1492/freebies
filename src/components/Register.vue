@@ -41,9 +41,7 @@
     },
     methods: {
       register: function () {
-        console.log(firebaseAuth);
         var self = this
-        console.log('register clicked!')
         if (!this.user.email || !this.user.password) {
           self.$notify({
             group: 'foo',
@@ -60,7 +58,6 @@
           });
           return 0
         }
-        console.log(this.user.email, this.user.password)
         firebaseAuth.createUserWithEmailAndPassword(this.user.email, this.user.password)
         .then(function (response) {
           console.log(response)

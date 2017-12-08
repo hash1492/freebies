@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="container">
-      <!-- <h2>Item detail</h2> -->
       <div>
         <br>
         <div class="row">
@@ -42,14 +41,11 @@ export default {
     }
   },
   created: function () {
-    console.log(this.$route.params.item_id)
     var self = this
     itemsCollection.where("id", "==", this.$route.params.item_id)
     .get()
     .then(function(querySnapshot) {
-      console.log(querySnapshot);
       querySnapshot.forEach(function(doc) {
-          console.log(doc.id, " => ", doc.data());
           self.item = doc.data()
       });
       console.log(self.item);

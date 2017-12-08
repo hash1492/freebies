@@ -7,15 +7,15 @@
       <div class="col-md-6">
         <form class="form-horizontal form-add-item">
           <div class="form-group">
-            <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+            <label class="col-sm-2 control-label">Title</label>
             <div class="col-sm-10">
-              <input type="text" v-model="item.title" class="form-control" id="inputTitle" placeholder="Title (ex: Leather Couch)">
+              <input type="text" v-model="item.title" class="form-control" placeholder="Title (ex: Leather Couch)">
             </div>
           </div>
           <div class="form-group">
-            <label for="inputCategory" class="col-sm-2 control-label">Category</label>
+            <label class="col-sm-2 control-label">Category</label>
             <div class="col-sm-10">
-              <select id="inputCategory"  v-model="item.category" class="form-control">
+              <select v-model="item.category" class="form-control">
                 <option value='' selected>Select Category</option>
                 <option v-for="category in categories" v-bind:value="category.name">{{category.name}}</option>
               </select>
@@ -23,16 +23,16 @@
           </div>
 
           <div class="form-group">
-            <label for="inputDescription" class="col-sm-2 control-label">Description</label>
+            <label class="col-sm-2 control-label">Description</label>
             <div class="col-sm-10">
-              <textarea type="text" v-model="item.description" class="form-control" id="inputDescription" placeholder="Description (ex: Black leather couch in very good condition couch.)"></textarea>
+              <textarea type="text" v-model="item.description" class="form-control" placeholder="Description (ex: Black leather couch in very good condition couch.)"></textarea>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="inputAddress" class="col-sm-2 control-label">Address</label>
+            <label class="col-sm-2 control-label">Address</label>
             <div class="col-sm-10">
-              <textarea type="text" v-model="item.address" class="form-control" id="inputAddress" placeholder="Address (ex: 123 Prince St, NY, 10011)"></textarea>
+              <textarea type="text" v-model="item.address" class="form-control" placeholder="Address (ex: 123 Prince St, NY, 10011)"></textarea>
             </div>
           </div>
           <div class="form-group">
@@ -49,8 +49,8 @@
       <div class="col-md-6">
         <img class="uploaded-item-img" v-show="showItemImg" v-bind:src="item.imgUrl" alt="Item image appears here">
         <div class="form-group">
-           <label for="exampleInputFile">Item Image</label>
-           <input class="image-upload-input" type="file" v-on:change='uploadImage($event.target.name, $event.target.files)' accept="image/*" id="exampleInputFile">
+           <label>Item Image</label>
+           <input class="image-upload-input" type="file" v-on:change='uploadImage($event.target.name, $event.target.files)' accept="image/*">
          </div>
       </div>
     </div>
@@ -90,11 +90,9 @@ export default {
     })
     if(this.$route.params.item_id) {
       this.editMode = true
-      console.log(this.$route.params.item_id)
       itemsCollection.where("id", "==", this.$route.params.item_id)
       .get()
       .then(function(querySnapshot) {
-        console.log(querySnapshot);
         querySnapshot.forEach(function(doc) {
             console.log(doc.id, " => ", doc.data());
             self.itemFireBaseId = doc.id
@@ -151,7 +149,6 @@ export default {
         });
     },
     addItem: function () {
-      console.log(this.item)
       var self = this
       if(this.isValidForm()){
         this.item.id = uuidv4()
@@ -173,7 +170,6 @@ export default {
       }
     },
     updateItem: function () {
-      console.log(this.item)
       var self = this
       itemsCollection.doc(this.itemFireBaseId)
       .update(this.item)
@@ -192,7 +188,6 @@ export default {
       });
     },
     deleteItem: function () {
-      console.log(this.itemFireBaseId)
       var response = confirm('Are you sure you want to delete?')
       if(response) {
         var self = this

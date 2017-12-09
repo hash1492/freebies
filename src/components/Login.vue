@@ -63,9 +63,8 @@ var firebaseAuth = firebase.firebaseAuth
                 group: 'foo',
                 type: 'error',
                 title: 'Invalid email',
-                text: 'The email address is badly formed'
+                text: 'The email address is badly formatted'
               });
-              self.user.email = ''
               self.user.password = ''
               break
             case 'auth/user-not-found':
@@ -75,7 +74,6 @@ var firebaseAuth = firebase.firebaseAuth
                 title: 'User not found',
                 text: 'The user with this email was not found'
               });
-              self.user.email = ''
               self.user.password = ''
               break
             case 'auth/wrong-password':

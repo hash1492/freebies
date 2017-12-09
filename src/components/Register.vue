@@ -4,16 +4,16 @@
       <h1>Register</h1>
       <form class="form-signin">
         <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" v-model="user.email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+          <label>Email address</label>
+          <input type="email" v-model="user.email" class="form-control" placeholder="Email">
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" v-model="user.password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <label>Password</label>
+          <input type="password" v-model="user.password" class="form-control" placeholder="Password">
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword2">Confirm Password</label>
-          <input type="password" v-model="user.confirm_password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
+          <label>Confirm Password</label>
+          <input type="password" v-model="user.confirm_password" class="form-control" placeholder="Confirm Password">
         </div>
         <button type="button" class="btn btn-primary" v-on:keyup.enter="register" v-on:click="register()">Register</button>
         <br><br>
@@ -45,6 +45,7 @@
         if (!this.user.email || !this.user.password) {
           self.$notify({
             group: 'foo',
+            type: 'error',
             title: 'Email or Password missing',
             text: 'Please enter both Email and Password'
           });
@@ -53,6 +54,7 @@
         if (this.user.password !== this.user.confirm_password) {
           self.$notify({
             group: 'foo',
+            type: 'error',
             title: 'Password and Confirm Password dont match',
             text: 'Password and Confirm Password fields must match'
           });
@@ -74,9 +76,24 @@
                 title: 'User already exists',
                 text: 'A user with this email already exists'
               });
+              break
+            case 'auth/invalid-email':
+              self.$notify({
+                group: 'foo',
+                type: 'error',
+                title: 'Invalid Email',
+                text: 'The email address is badly formatted'
+              });
+              break
+            case 'auth/weak-password':
+              self.$notify({
+                group: 'foo',
+                type: 'error',
+                title: 'Weak Password',
+                text: 'Password should be atleast 6 characters'
+              });
               break;
             default:
-
           }
         })
       }

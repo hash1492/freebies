@@ -9,7 +9,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">Title</label>
             <div class="col-sm-10">
-              <input type="text" v-model="item.title" class="form-control" placeholder="Title (ex: Leather Couch)">
+              <input type="text" v-model="item.title" maxlength="30" class="form-control" placeholder="Title (ex: Leather Couch)">
             </div>
           </div>
           <div class="form-group">
@@ -25,7 +25,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">Description</label>
             <div class="col-sm-10">
-              <textarea type="text" v-model="item.description" class="form-control" placeholder="Description (ex: Black leather couch in very good condition couch.)"></textarea>
+              <textarea type="text" v-model="item.description" maxlength="500" rows="5" class="form-control" placeholder="Description (ex: Black leather couch in very good condition couch.)"></textarea>
             </div>
           </div>
 

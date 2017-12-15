@@ -15,10 +15,10 @@
           <label>Confirm Password</label>
           <input type="password" v-model="user.confirm_password" class="form-control" placeholder="Confirm Password">
         </div>
-        <button type="button" class="btn btn-primary" v-on:keyup.enter="register" v-on:click="register()">Register</button>
+        <button type="button" class="btn btn-info" v-on:keyup.enter="register" v-on:click="register()">Register</button>
         <br><br>
         <div>
-          <router-link to="/login">Already a user? Login</router-link>
+          <router-link to="/login">Existing user? Login</router-link>
         </div>
       </form>
     </div>

@@ -11,7 +11,7 @@
           <label>Password</label>
           <input type="password" v-model="user.password" v-on:keyup.enter="login" class="form-control" placeholder="Password">
         </div>
-        <button type="button" class="btn btn-primary" v-on:click="login()">Login</button>
+        <button type="button" class="btn btn-info" v-on:click="login()">Login</button>
         <br><br>
         <div>
           <router-link to="/register">New user? Register</router-link>

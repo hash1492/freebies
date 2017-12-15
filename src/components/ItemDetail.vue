@@ -1,20 +1,36 @@
 <template>
   <div>
     <div class="container">
-      <div>
+      <div v-if="item.id">
         <br>
         <div class="row">
           <div class="col-md-6">
             <img class="item-detail-img" v-bind:src="item.imgUrl" alt="Item image here">
           </div>
           <div class="col-md-6">
-            <div class="jumbotron item-details">
+            <div class="jumbotron">
               <h2 class="item-title">{{item.title}}</h2>
               <p class="item-date">Added: {{item.createdAt | formatDate}}</p>
-              <h4>Category: {{item.category}}</h4>
-              <h4>Description: {{item.description}}</h4>
-              <h4>Address: {{item.address}}</h4>
-              <h4>User ID: {{item.userId}}</h4>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th scope="row">Category</th>
+                    <td>{{item.category}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Description</th>
+                    <td>{{item.description}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">User ID</th>
+                    <td>{{item.userId}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Address</th>
+                    <td>{{item.address}}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -72,10 +88,6 @@ export default {
   border: 1px solid #ddd;
   padding: 10px;
 }
-.item-details {
-  height: 300px
-}
-
 .item-title {
   font-weight: bold;
 }

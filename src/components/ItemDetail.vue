@@ -45,6 +45,10 @@ export default {
     itemsCollection.where("id", "==", this.$route.params.item_id)
     .get()
     .then(function(querySnapshot) {
+      if(querySnapshot.empty) {
+        self.$router.push({name: 'GenericError'})
+        return
+      }
       querySnapshot.forEach(function(doc) {
           self.item = doc.data()
       });

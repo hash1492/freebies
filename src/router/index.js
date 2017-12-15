@@ -6,6 +6,7 @@ import ItemList from '../components/ItemList.vue'
 import ItemDetail from '../components/ItemDetail.vue'
 import AddUpdateItem from '../components/AddUpdateItem.vue'
 import MyItems from '../components/MyItems.vue'
+import GenericError from '../components/GenericError.vue'
 import * as firebase from '../firebase/config'
 var firebaseAuth = firebase.firebaseAuth
 
@@ -102,6 +103,20 @@ export default new VueRouter({
       path: '/my-items',
       name: 'MyItems',
       component: MyItems,
+      beforeEnter: (to, from, next) => {
+        firebaseAuth.onAuthStateChanged(function(user) {
+          if (!user) {
+            next({name: 'Login'})
+          } else {
+            next()
+          }
+        })
+      }
+    },
+    {
+      path: '/error',
+      name: 'GenericError',
+      component: GenericError,
       beforeEnter: (to, from, next) => {
         firebaseAuth.onAuthStateChanged(function(user) {
           if (!user) {

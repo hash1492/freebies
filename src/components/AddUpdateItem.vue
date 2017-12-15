@@ -88,13 +88,23 @@ export default {
         self.categories.push(doc.data())
       })
     })
+    // Edit mode
     if(this.$route.params.item_id) {
       this.editMode = true
       itemsCollection.where("id", "==", this.$route.params.item_id)
       .get()
       .then(function(querySnapshot) {
+        console.log(querySnapshot);
+        if(querySnapshot.empty) {
+          self.$router.push({name: 'GenericError'})
+          return
+        }
         querySnapshot.forEach(function(doc) {
-            console.log(doc.id, " => ", doc.data());
+            // If the item is not from the current user, don't let him/her update it
+            if(doc.data().userId !== firebaseAuth.currentUser.email) {
+              self.$router.push({name: 'GenericError'})
+              return
+            }
             self.itemFireBaseId = doc.id
             self.item = doc.data()
             self.showItemImg = true

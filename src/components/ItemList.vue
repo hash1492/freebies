@@ -50,14 +50,26 @@ export default {
   },
   created: function () {
     var self = this
-    itemsCollection.get()
-    .then(function (querySnapshot) {
-      querySnapshot.forEach(function (doc) {
-        self.items.push(doc.data())
-        console.log(doc.data())
-      })
-      self.items = _.sortBy(self.items, 'createdAt').reverse();
-    })
+    // Non-Realtime implementation
+
+    // itemsCollection.get()
+    // .then(function (querySnapshot) {
+    //   querySnapshot.forEach(function (doc) {
+    //     self.items.push(doc.data())
+    //     console.log(doc.data())
+    //   })
+    //   self.items = _.sortBy(self.items, 'createdAt').reverse();
+    // })
+
+    // Realtime implementation
+    itemsCollection.onSnapshot(function (querySnapshot) {
+       self.items = []
+       querySnapshot.forEach(function (doc) {
+         self.items.push(doc.data())
+       })
+       self.items = _.sortBy(self.items, 'createdAt').reverse();
+       console.log(self.items);
+     })
   },
   methods: {
     viewItem: function (item_id) {

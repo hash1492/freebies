@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="!editMode || (editMode && item.id)">
     <h1 v-if="!editMode">Add Item</h1>
     <h1 v-else>Update Item</h1>
     <br>

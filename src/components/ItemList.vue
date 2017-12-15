@@ -7,7 +7,7 @@
       <div class = "row">
         <div class = "col-sm-6 col-md-4" v-for="item in filteredItems">
            <div class = "thumbnail list-item" v-on:click="viewItem(item.id)">
-              <img class="item-list-img" v-bind:src= "item.imgUrl" alt = "Generic placeholder thumbnail">
+              <img class="item-list-img" v-bind:src= "item.imgUrl" alt = "Item image here">
               <div class = "caption">
                  <h3>{{item.title}}</h3>
                  <p>{{item.userId}}</p>

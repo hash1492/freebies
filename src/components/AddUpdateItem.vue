@@ -9,7 +9,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">Title</label>
             <div class="col-sm-10">
-              <input type="text" v-model="item.title" maxlength="30" class="form-control" placeholder="Title (ex: Leather Couch)">
+              <input type="text" v-model="item.title" maxlength="30" class="form-control" placeholder="(ex: Leather Couch)">
             </div>
           </div>
           <div class="form-group">
@@ -25,14 +25,20 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">Description</label>
             <div class="col-sm-10">
-              <textarea type="text" v-model="item.description" maxlength="500" rows="5" class="form-control" placeholder="Description (ex: Black leather couch in very good condition couch.)"></textarea>
+              <textarea type="text" v-model="item.description" maxlength="500" rows="5" class="form-control" placeholder="(ex: Black leather couch in very good condition couch.)"></textarea>
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-sm-2 control-label">Address</label>
             <div class="col-sm-10">
-              <textarea type="text" v-model="item.address" class="form-control" placeholder="Address (ex: 123 Prince St, NY, 10011)"></textarea>
+              <textarea type="text" v-model="item.address" class="form-control" placeholder="(ex: 123 Prince St, NY, 10011)"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Phone Number</label>
+            <div class="col-sm-10">
+              <input type="tel" v-model="item.phoneNumber" class="form-control" placeholder="(ex: 646-111-1111)">
             </div>
           </div>
           <div class="form-group">
@@ -117,7 +123,7 @@ export default {
   },
   methods: {
     isValidForm: function () {
-      if(!this.item.title || !this.item.description || !this.item.category || !this.item.address || !this.item.imgUrl) {
+      if(!this.item.title || !this.item.description || !this.item.category || !this.item.address || !this.item.phoneNumber || !this.item.imgUrl) {
         this.$notify({
           group: 'foo',
           type: 'error',
@@ -181,21 +187,24 @@ export default {
     },
     updateItem: function () {
       var self = this
-      itemsCollection.doc(this.itemFireBaseId)
-      .update(this.item)
-      .then(function() {
-          console.log("Document successfully updated!");
-          self.$notify({
-            group: 'foo',
-            title: 'Item Updated',
-            text: self.item.title + ' has been updated successfully'
-          });
-          self.$router.push({name: 'MyItems'})
-      })
-      .catch(function(error) {
-          // The document probably doesn't exist.
-          console.error("Error updating document: ", error);
-      });
+      if(this.isValidForm()) {
+        itemsCollection.doc(this.itemFireBaseId)
+        .update(this.item)
+        .then(function() {
+            console.log("Document successfully updated!");
+            self.$notify({
+              group: 'foo',
+              title: 'Item Updated',
+              text: self.item.title + ' has been updated successfully'
+            });
+            self.$router.push({name: 'MyItems'})
+        })
+        .catch(function(error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+        });
+      }
+
     },
     deleteItem: function () {
       var response = confirm('Are you sure you want to delete?')

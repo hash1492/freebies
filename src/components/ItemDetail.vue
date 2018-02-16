@@ -29,6 +29,10 @@
                     <th scope="row">Address</th>
                     <td>{{item.address}}</td>
                   </tr>
+                  <tr>
+                    <th scope="row">Phone Number</th>
+                    <td>{{item.phoneNumber}}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>

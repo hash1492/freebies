@@ -127,6 +127,6 @@ export default new VueRouter({
         })
       }
     },
-    { path: '*', redirect: '/error' }
+    { path: '*', redirect: '/login' }
   ]
 })

@@ -16,6 +16,9 @@
            </div>
         </div>
       </div>
+      <div class="input-group search-input-group">
+        <button :disabled="disableLoadMoreButton" v-on:click="loadMorePosts()" class = "btn btn-info">Load More</button>
+      </div>
     </div>
   </div>
 </template>
@@ -32,7 +35,10 @@ export default {
   data () {
     return {
       items: [],
-      searchText: ''
+      searchText: '',
+      lastVisible: {},
+      disableLoadMoreButton: false,
+      paginationPageLimit: 5
     }
   },
   computed: {
@@ -52,29 +58,72 @@ export default {
     var self = this
     // Non-Realtime implementation
 
-    // itemsCollection.get()
+    // itemsCollection
+    // .orderBy('createdAt','desc')
+    // .get()
     // .then(function (querySnapshot) {
     //   querySnapshot.forEach(function (doc) {
     //     self.items.push(doc.data())
-    //     console.log(doc.data())
     //   })
-    //   self.items = _.sortBy(self.items, 'createdAt').reverse();
+    //   console.log(self.items);
     // })
 
     // Realtime implementation
-    itemsCollection.onSnapshot(function (querySnapshot) {
+    // itemsCollection
+    // .orderBy("createdAt", "desc")
+    // .onSnapshot(function (querySnapshot) {
+    //    self.items = []
+    //    querySnapshot.forEach(function (doc) {
+    //      self.items.push(doc.data())
+    //    })
+    //    console.log(self.items);
+    //  })
+
+    // Pagination Implementation
+    itemsCollection
+    .orderBy("createdAt", "desc")
+    .limit(self.paginationPageLimit)
+    .onSnapshot(function (querySnapshot) {
        self.items = []
        querySnapshot.forEach(function (doc) {
          self.items.push(doc.data())
        })
-       self.items = _.sortBy(self.items, 'createdAt').reverse();
+       console.log(querySnapshot);
+       if(querySnapshot.docs.length > 0) {
+         self.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+       }
+        if(querySnapshot.docs.length < self.paginationPageLimit) {
+          self.disableLoadMoreButton = true;
+        }
        console.log(self.items);
      })
+
   },
   methods: {
     viewItem: function (item_id) {
       console.log(item_id)
       this.$router.push({name: 'ItemDetail', params: {item_id: item_id}})
+    },
+    loadMorePosts: function () {
+      var self = this;
+
+      itemsCollection
+      .orderBy("createdAt", "desc")
+      .startAfter(self.lastVisible)
+      .limit(self.paginationPageLimit)
+      .onSnapshot(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          self.items.push(doc.data())
+        })
+        if(querySnapshot.docs.length > 0) {
+          self.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        }
+
+        if(querySnapshot.docs.length < self.paginationPageLimit) {
+          self.disableLoadMoreButton = true;
+        }
+        console.log(self.items);
+      })
     }
   }
 }
@@ -83,6 +132,14 @@ export default {
 <style scoped>
 .list-item {
   cursor: pointer;
+  transition: opacity .2s;
+     transition: opacity .2s ease-in-out;
+   -moz-transition: opacity .2s ease-in-out;
+   -webkit-transition: opacity .2s ease-in-out;
+}
+
+.list-item:hover {
+  opacity: 0.7;
 }
 .item-list-img {
   height: 250px;
